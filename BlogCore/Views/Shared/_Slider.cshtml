@@ -1,0 +1,24 @@
+@model IEnumerable<BlogCoreSolution.Models.Slider>
+@if (Model != null && Model.Any())
+{
+    <div id="suportSlider" class="carousel slide store-slider" data-bs-ride="carousel" data-bs-interval="4500">
+        <div class="carousel-indicators">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <button type="button" data-bs-target="#suportSlider" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-label="Slide @(i+1)"></button>
+            }
+        </div>
+        <div class="carousel-inner">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                var slider = Model.ElementAt(i);
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <img src="@slider.UrlImagen" class="d-block w-100" alt="@slider.Nombre" />
+                    <div class="carousel-caption"><span>SUPORTSAARON</span><h2>@slider.Nombre</h2><a href="#catalogo" class="btn btn-store">Ver catálogo</a></div>
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#suportSlider" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Anterior</span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#suportSlider" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Siguiente</span></button>
+    </div>
+}

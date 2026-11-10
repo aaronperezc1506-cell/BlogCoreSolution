@@ -1,0 +1,118 @@
+﻿@page
+@using BlogCoreSolution.Utilidades
+
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registro de usuario";
+}
+<!-- Centramos el título de la página usando Bootstrap -->
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
+<div class="row justify-content-center">
+    <!-- El formulario ocupará 8 columnas de la rejilla de Bootstrap y estará centrado -->
+    <div class="col-md-8 border p-4 mt-3" style="border-radius: 10px; background-color: #fcfcfc;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.05);">
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h3 class="text-center text-primary">Crear una nueva cuenta</h3>
+            <hr />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <!-- Fila 1: Correo Electrónico y Nombre -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Email" class="form-label">Correo electrónico</label>
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username"
+                           placeholder="nombre@ejemplo.com" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Nombre" class="form-label">Nombre completo</label>
+                    <input asp-for="Input.Nombre" class="form-control" autocomplete="name"
+                           placeholder="Ingresa tu nombre" />
+                    <span asp-validation-for="Input.Nombre" class="text-danger"></span>
+                </div>
+            </div>
+            <!-- Fila 2: Dirección y Teléfono -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Direccion" class="form-label">Dirección</label>
+                    <input asp-for="Input.Direccion" class="form-control" placeholder="Ingresa tu
+                    dirección" />
+                    <span asp-validation-for="Input.Direccion" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.PhoneNumber" class="form-label">Teléfono</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Ingresa tu
+                    número de teléfono" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <!-- Fila 3: Ciudad y País -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Ciudad" class="form-label">Ciudad</label>
+                    <input asp-for="Input.Ciudad" class="form-control" placeholder="Ingresa tu ciudad" />
+                    <span asp-validation-for="Input.Ciudad" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Pais" class="form-label">País</label>
+                    <input asp-for="Input.Pais" class="form-control" placeholder="Ingresa tu país" />
+                    <span asp-validation-for="Input.Pais" class="text-danger"></span>
+                </div>
+            </div>
+            <!-- Fila 4: Contraseñas -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Password" class="form-label">Contraseña</label>
+                    <input asp-for="Input.Password" class="form-control" autocomplete="newpassword" placeholder="Mínimo 6 caracteres" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.ConfirmPassword" class="form-label">
+                        Confirmar contraseña
+                    </label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="newpassword" placeholder="Repite tu contraseña" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+
+             @* Evalúa que el usuario esté autenticado y pertenezca al rol de Administrador *@
+             <!--Autorización-->
+             @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+             {
+                 <!--Selector de Roles-->
+                 <div class="form-group row">
+                 <div class="col-6"><h4>Seleccionar Rol de Usuario</h4></div>
+                 <div class="col-5">
+                 <input type="radio" name="radUsuarioRole" value="@CNT.Administrador" />@CNT.Administrador
+                 <input type="radio" name="radUsuarioRole" value="@CNT.Registrado" />@CNT.Registrado
+                 </div>
+                 </div>
+             }
+
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-success mt-3"
+                    style="border-radius: 10px;">
+                Registrarse
+            </button>
+        </form>
+    </div>
+</div>
+
+@*
+ Mantenemos comentada la columna de autenticaciones externas para preservarla
+ como material de referencia sin alterar el diseño centrado de nuestro formulario principal.
+*@
+@*
+<div class="col-md-6 col-md-offset-2 d-none">
+ <section>
+ <h3>Use another service to register.</h3>
+ <hr />
+ ...
+ </section>
+</div>
+*@
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

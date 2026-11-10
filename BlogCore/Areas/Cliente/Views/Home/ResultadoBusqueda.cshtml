@@ -1,0 +1,42 @@
+@using BlogCoreSolution.Models
+@model ListaPaginada<Articulo>
+@{
+    ViewData["Title"] = "Buscar productos";
+}
+<div class="section-title">
+    <span>BÚSQUEDA EN SUPORTSAARON</span>
+    <h2>Resultados del catálogo</h2>
+    <p class="text-muted">Coincidencias para <strong>"@Model.SearchString"</strong></p>
+</div>
+@if (Model.Any())
+{
+    <div class="row g-4">
+    @foreach (var articulo in Model)
+    {
+        <div class="col-12 col-sm-6 col-lg-4">
+            <article class="product-card h-100">
+                <div class="product-image"><img src="@articulo.UrlImagen" alt="@articulo.Nombre" loading="lazy" /></div>
+                <div class="product-content">
+                    <span class="product-category">SUPORTSAARON</span>
+                    <h3>@articulo.Nombre</h3>
+                    <a asp-action="Detalle" asp-route-id="@articulo.Id" class="btn btn-product">Ver detalles</a>
+                </div>
+            </article>
+        </div>
+    }
+    </div>
+}
+else
+{
+    <div class="empty-catalog"><i class="bi bi-search"></i><h3>No encontramos productos</h3><p>Prueba con otra palabra o revisa las categorías del catálogo.</p></div>
+}
+<nav class="mt-4" aria-label="Paginación">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")"><a class="page-link" asp-action="ResultadoBusqueda" asp-route-page="@(Model.PageIndex - 1)" asp-route-searchString="@Model.SearchString">Anterior</a></li>
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")"><a class="page-link" asp-action="ResultadoBusqueda" asp-route-page="@i" asp-route-searchString="@Model.SearchString">@i</a></li>
+        }
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")"><a class="page-link" asp-action="ResultadoBusqueda" asp-route-page="@(Model.PageIndex + 1)" asp-route-searchString="@Model.SearchString">Siguiente</a></li>
+    </ul>
+</nav>

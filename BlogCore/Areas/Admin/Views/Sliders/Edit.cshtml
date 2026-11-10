@@ -1,0 +1,90 @@
+﻿@model BlogCoreSolution.Models.Slider
+@{
+    ViewData["Title"] = "Editar slider";
+}
+<br />
+<br />
+<h2 class="text-center">Editar slider</h2>
+<!-- El formulario apunta a la acción de Edición por POST y habilita el enctype para transferir
+archivos -->
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+
+    <!-- CAMPO OCULTO: ID del Slider (Extremadamente importante para que .NET no lo pierda) --
+    >
+    <input type="hidden" asp-for="Id" />
+    <div class="row px-2 offset-1 border">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <!-- COLUMNA IZQUIERDA: Campos de edición (8 de 12 columnas) -->
+        <div class="col-8 mt-4">
+
+            <!-- Campo: Nombre -->
+            <div class="form-group row mt-2">
+                <div class="col-4">
+                    <label asp-for="Nombre"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <!-- Campo: Estado (Checkbox Switch) -->
+            <div class="form-group row mt-2">
+                <div class="col-4">
+                    <label asp-for="Estado"></label>
+                </div>
+                <div class="col-8">
+                    <div class="form-check form-switch pt-1">
+                        <input type="checkbox" asp-for="Estado" class="form-check-input" />
+                        <label class="form-check-label" for="Estado">¿Mostrar en página de inicio?</label>
+                    </div>
+                    <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <!-- Campo: Subir nueva imagen -->
+            <div class="form-group row mt-2">
+                <div class="col-4">
+                    <label asp-for="UrlImagen"></label>
+                </div>
+                <div class="col-8">
+                    <input type="file" name="archivos" id="subidaArchivo" class="form-control" />
+                    <span asp-validation-for="UrlImagen" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <!-- Botones personalizados para Edición -->
+            <div class="form-group row mt-4">
+                <div class="col-8 offset-4">
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary formcontrol">Actualizar</button>
+                        </div>
+                        &nbsp;
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-success form-control">Volver atrás</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- COLUMNA DERECHA: Vista previa de la imagen actual (4 de 12 columnas) -->
+        <div class="col-4 mt-4 pt-3 text-center">
+            <h5 class="text-secondary">Imagen actual</h5>
+            @if (Model.UrlImagen != null)
+            {
+                <img src="@Model.UrlImagen" style="width: 100%; border-radius: 5px; border: 1px
+                solid #bbb;" />
+            }
+            else
+            {
+                <p class="text-muted">No hay ninguna imagen cargada</p>
+            }
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

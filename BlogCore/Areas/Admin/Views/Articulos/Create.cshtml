@@ -1,0 +1,75 @@
+﻿@model BlogCoreSolution.Models.ViewModels.ArticuloVM
+@{
+    ViewData["Title"] = "Crear Artículo";
+}
+
+<br />
+<br />
+<h2 class="text-center">Crear un nuevo Artículo</h2>
+<form method="POST" asp-action="Create" enctype="multipart/form-data">
+    <div class="row px-2 offset-1 border">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="col-10 offser-1 mt-4">
+            <div class="form-group row mt-2">
+                <div class="col-4">
+                    <label asp-for="Articulo.Nombre"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Articulo.Nombre" class="form-control" placeholder="Ingresa el nombre del artículo" />
+                    <span asp-validation-for="Articulo.Nombre" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mt-2">
+                <div class="col-4">
+                    <label asp-for="Articulo.Descripcion"></label>
+                </div>
+                <div class="col-8">
+                    <textarea asp-for="Articulo.Descripcion" id="Contenido" class="form-control" style="height: 300px;"></textarea>
+                    <span asp-validation-for="Articulo.Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mt-2">
+                <div class="col-4">
+                    <label for="Categoria">Categoría</label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(m => m.Articulo.CategoriaId, Model.ListaCategorias,
+                    "-Por favor seleccione una categoría-", new { @class = "form-control"})
+                    <span asp-validation-for="Articulo.CategoriaId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mt-2">
+                <div class="col-4">
+                    <label asp-for="Articulo.UrlImagen"></label>
+                </div>
+                <div class="col-8">
+                    <input type="file" class="form-control" name="archivos" id="subidaArchivo" />
+                    <span asp-validation-for="Articulo.UrlImagen" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group-row mt-4">
+                <div class="col-8">
+                    <partial name="_VistaCrearVolver" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.js"></script>
+    <script>
+        new SimpleMDE({ element: document.getElementById("Contenido") });
+    </script>
+}

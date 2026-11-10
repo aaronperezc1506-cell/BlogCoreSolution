@@ -1,0 +1,20 @@
+@model BlogCoreSolution.Models.Articulo
+@{
+    ViewData["Title"] = Model.Nombre;
+}
+<div class="container py-3">
+    <article class="card detalle-card">
+        <div class="card-header detalle-card-header">
+            <span class="text-info small fw-bold">SUPORTSAARON · CATÁLOGO ELECTRÓNICO</span>
+            <h1 class="detalle-titulo mt-2">@Model.Nombre</h1>
+            <p class="detalle-fecha"><i class="bi bi-calendar3 me-1"></i> Publicado: @Model.FechaCreacion.ToString("dd/MM/yyyy")</p>
+        </div>
+        <div class="card-body p-4">
+            <div class="row align-items-start g-4">
+                <div class="col-12 col-md-5 text-center"><img src="@Model.UrlImagen" class="detalle-imagen" alt="@Model.Nombre" /></div>
+                <div class="col-12 col-md-7"><div class="detalle-descripcion">@Html.Raw(Model.Descripcion)</div></div>
+            </div>
+        </div>
+        <div class="card-footer bg-white border-0 p-3"><a asp-action="Index" class="btn btn-dark"><i class="bi bi-arrow-left me-1"></i> Volver al catálogo</a></div>
+    </article>
+</div>

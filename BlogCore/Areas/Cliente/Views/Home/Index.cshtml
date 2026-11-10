@@ -1,0 +1,67 @@
+@model BlogCoreSolution.Models.ViewModels.HomeVM
+@{
+    ViewData["Title"] = "Inicio";
+}
+<section class="store-hero mb-4">
+    <div class="store-hero-copy">
+        <span class="store-kicker">TECNOLOGÍA · INNOVACIÓN · CONFIANZA</span>
+        <h1>La tecnología que buscas, en un solo lugar.</h1>
+        <p>Explora celulares, computadoras, audio, video y accesorios para acompañar cada proyecto.</p>
+        <a class="btn btn-store" href="#catalogo">Explorar productos <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="store-hero-art"><i class="bi bi-cpu"></i><span>SUPORTSAARON</span></div>
+</section>
+
+<section class="store-categories mb-5">
+    <div class="section-title"><span>COMPRA POR CATEGORÍA</span><h2>Encuentra lo que necesitas</h2></div>
+    <div class="row g-3">
+        <div class="col-6 col-lg-3"><a class="category-tile" asp-action="ResultadoBusqueda" asp-route-searchString="celular"><i class="bi bi-phone"></i><strong>Celulares y tablets</strong></a></div>
+        <div class="col-6 col-lg-3"><a class="category-tile" asp-action="ResultadoBusqueda" asp-route-searchString="computadora"><i class="bi bi-laptop"></i><strong>Computadoras</strong></a></div>
+        <div class="col-6 col-lg-3"><a class="category-tile" asp-action="ResultadoBusqueda" asp-route-searchString="audio"><i class="bi bi-headphones"></i><strong>Audio y video</strong></a></div>
+        <div class="col-6 col-lg-3"><a class="category-tile" asp-action="ResultadoBusqueda" asp-route-searchString="accesorios"><i class="bi bi-controller"></i><strong>Accesorios y gaming</strong></a></div>
+    </div>
+</section>
+
+<section id="catalogo">
+    <div class="section-title d-flex justify-content-between align-items-end flex-wrap gap-2">
+        <div><span>CATÁLOGO</span><h2>Productos y recomendaciones</h2></div>
+        <span class="catalog-count">@Model.ListArticulos.Count() productos publicados</span>
+    </div>
+    @if (Model.ListArticulos.Any())
+    {
+        <div class="row g-4">
+        @foreach (var articulo in Model.ListArticulos)
+        {
+            <div class="col-12 col-sm-6 col-xl-4">
+                <article class="product-card h-100">
+                    <div class="product-image">
+                        <img src="@articulo.UrlImagen" alt="@articulo.Nombre" loading="lazy" />
+                        <span class="product-label">RECOMENDADO</span>
+                    </div>
+                    <div class="product-content">
+                        <span class="product-category">SUPORTSAARON · ELECTRÓNICA</span>
+                        <h3>@articulo.Nombre</h3>
+                        <p>Conoce sus características, usos y consejos para elegir tecnología de acuerdo con tus necesidades.</p>
+                        <a asp-action="Detalle" asp-route-id="@articulo.Id" class="btn btn-product">Ver detalles <i class="bi bi-arrow-up-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        }
+        </div>
+    }
+    else
+    {
+        <div class="empty-catalog"><i class="bi bi-box-seam"></i><h3>Pronto tendremos productos</h3><p>Los artículos que agregues desde administración aparecerán aquí.</p></div>
+    }
+</section>
+
+<nav class="mt-5" aria-label="Paginación del catálogo">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.PageIndex <= 1 ? "disabled" : "")"><a class="page-link" asp-action="Index" asp-route-page="@(Model.PageIndex - 1)">Anterior</a></li>
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")"><a class="page-link" asp-action="Index" asp-route-page="@i">@i</a></li>
+        }
+        <li class="page-item @(Model.PageIndex >= Model.TotalPages ? "disabled" : "")"><a class="page-link" asp-action="Index" asp-route-page="@(Model.PageIndex + 1)">Siguiente</a></li>
+    </ul>
+</nav>
